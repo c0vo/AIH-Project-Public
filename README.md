@@ -83,14 +83,6 @@ gunicorn --worker-class eventlet -w 1 main:app
 
 The application will be available at `http://localhost:8080` by default.
 
-## Security Considerations
-
-- Never commit the `.env` file to version control
-- Keep your Google Cloud credentials secure
-- Regularly rotate your service account keys
-- Use appropriate CORS settings in production
-- Make sure to set proper production configurations when deploying
-
 ## Project Structure
 
 ```
