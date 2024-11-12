@@ -1,0 +1,640 @@
+/* Base dark theme colors */
+:root {
+    --background-dark: #28282b;
+    --nav-background: #28282b;
+    --chat-background: #28282b;
+    --user-message-bg: #6f717c;
+    --app-message-bg: #343541;
+    --input-background: #40414f;
+    --border-color: #565869;
+    --text-primary: #ececf1;
+    --text-secondary: #9ca3af;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* Landing Page Styles */
+.landing-container {
+    min-height: 100vh;
+    background-color: var(--background-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.landing-content {
+    max-width: 1200px;
+    width: 100%;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.landing-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.landing-logo {
+    height: 60px;
+    margin-bottom: 1.5rem;
+}
+
+.landing-title {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.landing-search {
+    position: relative;
+    margin-bottom: 3rem;
+    animation: slideUp 0.5s ease-out 0.2s both;
+}
+
+.landing-input {
+    width: 100%;
+    padding: 1rem 3rem 1rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-background);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+}
+
+.landing-input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.landing-search-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.landing-search-btn:hover {
+    color: var(--text-primary);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    animation: slideUp 0.5s ease-out 0.4s both;
+}
+
+.feature-card {
+    background-color: var(--app-message-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+    background-color: var(--input-background);
+}
+
+.feature-icon {
+    background-color: var(--input-background);
+    width: fit-content;
+    padding: 0.75rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transition Animations */
+.fade-out {
+    opacity: 0;
+}
+
+.slide-up-enter {
+    animation: slideUp 0.5s ease-out;
+}
+
+
+@media (max-width: 640px) {
+    .landing-container {
+        padding: 1rem;
+        min-height: 100vh;
+        justify-content: flex-start;  /* Changed from center to start */
+        padding-top: 5rem;  /* Add space for the nav bar */
+    }
+
+    .landing-header {
+        margin-bottom: 2rem;  /* Reduced margin */
+    }
+
+    .landing-title {
+        font-size: 1.75rem;
+        line-height: 1.2;
+        padding: 0 0.5rem;
+    }
+
+    .landing-search {
+        margin-bottom: 2rem;  /* Reduced margin */
+    }
+
+    .landing-input {
+        padding: 0.875rem 2.5rem 0.875rem 1rem;  /* Slightly smaller padding */
+        font-size: 1rem;
+    }
+
+    /* Redesigned feature grid for mobile */
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columns instead of 1 */
+        gap: 0.75rem;  /* Reduced gap */
+    }
+
+    .feature-card {
+        padding: 1rem;  /* Reduced padding */
+        min-height: 140px;  /* Fixed height for consistency */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .feature-icon {
+        padding: 0.5rem;  /* Smaller icon container */
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-card h3 {
+        font-size: 0.95rem;  /* Smaller title */
+        margin-bottom: 0.25rem;
+    }
+
+    .feature-card p {
+        font-size: 0.8rem;  /* Smaller description */
+        line-height: 1.3;
+        /* Hide overflow text with ellipsis */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .feature-icon svg {
+        width: 1.25rem;  /* Smaller icons */
+        height: 1.25rem;
+    }
+}
+
+/* Add styles for even smaller screens */
+@media (max-width: 380px) {
+    .feature-grid {
+        grid-template-columns: 1fr;  /* Single column for very small screens */
+    }
+
+    .feature-card {
+        min-height: auto;  /* Remove fixed height */
+        padding: 0.875rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .feature-card {
+        animation: fadeSlideUp 0.3s ease-out;
+        animation-fill-mode: both;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    .feature-card:nth-child(4) { animation-delay: 0.4s; }
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .feature-card:active {
+        transform: scale(0.98);
+        background-color: var(--input-background);
+    }
+}
+
+.appmessage {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.chatContainer {
+    width: 100%;
+    min-height: calc(100vh - 85px);
+    padding-top: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    background-color: var(--chat-background);
+    position: relative; 
+}
+
+.box {
+    width: min(95%, 1200px);
+    height: calc(100vh - 105px);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px; /* Increased to account for taller bottom bar */
+}
+
+.upper {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--background-dark);
+    padding: 20px 10px; /* Increased vertical padding */
+    border-top: 1px solid var(--border-color);
+    z-index: 100;
+}
+
+#userinputform {
+    margin: 10px 0; /* Add vertical margin */
+}
+
+@media (max-width: 640px) {
+    .bottom {
+        padding: 8px;
+        width: 100%;
+    }
+    
+    .box {
+        width: 100%;
+    }
+}
+
+
+.message {
+    margin: 20px;
+}
+
+.usermessagediv {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-left: 20%;
+}
+
+.usermessage {
+    background-color: var(--user-message-bg);
+    color: var(--text-primary);
+    padding: 0.5rem .875rem;
+    border-radius: 20px;
+}
+
+.appmessagediv {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-right: 20%;
+    align-items: center;
+}
+
+.appmessage {
+    background-color: var(--app-message-bg);
+    color: var(--text-primary);
+    padding: 0.5rem .875rem;
+    border-radius: 20px;
+}
+
+.upper::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.upper::-webkit-scrollbar-track {
+    background: var(--background-dark);
+}
+
+.upper::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.upper::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+#sendbtn:disabled {
+    opacity: 0.6;
+}
+
+.downwarning {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    font-size: 90%;
+    color: var(--text-secondary);
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 3px;
+    background-color: var(--nav-background) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+#imagePreview {
+    display: none;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: var(--app-message-bg);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#previewImage {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.message-image-container {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px 0;
+    overflow: hidden;
+    background-color: var(--app-message-bg);
+}
+
+.message-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: none;
+    outline: none;
+}
+
+.simple-loader {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.audio-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.audio-btn:hover {
+    color: #2563eb;
+}
+
+.audio-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.clear-chat-btn {
+    background-color: #ef4444;
+    color: var(--text-primary);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-chat-btn:hover {
+    background-color: #dc2626;
+}
+
+.recording {
+    background-color: #ef4444 !important;
+    border-radius: 50%;
+}
+
+.recording svg {
+    stroke: white;
+}
+
+#interimTranscript {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin: 10px 0;
+}
+
+#finalTranscript {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 10px 0;
+}
+
+.voiceButton {
+    padding: 8px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: var(--input-background);
+}
+
+.voiceButton:hover {
+    background-color: var(--app-message-bg);
+}
+
+/* Landing page specific styles */
+#landing-page {
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+}
+
+.landing-input {
+    background-color: var(--input-background) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.feature-card {
+    background-color: var(--app-message-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.feature-card:hover {
+    background-color: #4d4e5c !important;
+}
+
+/* Form elements */
+textarea, input[type="text"] {
+    background-color: var(--input-background) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+textarea:focus, input[type="text"]:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Placeholder text color */
+textarea::placeholder, input::placeholder {
+    color: var(--text-secondary) !important;
+}
+
+/* Button hover states */
+button {
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+button:hover {
+    color: var(--text-primary);
+}
+
+/* Remove image button */
+#removeImage {
+    color: #ef4444 !important;
+}
+
+#removeImage:hover {
+    color: #dc2626 !important;
+}
+
+.landing-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.landing-input:focus + div {
+    display: none;
+}
+
+.carousel-text {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-text.active {
+    opacity: 1;
+}
+
+.carousel-text.inactive {
+    opacity: 0;
+}
+
+.carousel-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.placeholder-overlay {
+    pointer-events: none;
+}
+
+.placeholder-overlay.hidden {
+    opacity: 0;
+}
+
+#landing-input:not(:placeholder-shown) + .placeholder-overlay,
+#landing-input:focus + .placeholder-overlay {
+    opacity: 0;
+}

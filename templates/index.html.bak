@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBS Chatbot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+
+<body>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="{{ url_for('index') }}" class="flex items-center">
+                <img src="{{ url_for('static', filename='images/dbs.png') }}" class="h-8 mr-3" alt="DBS Logo" />
+            </a>
+        </div>
+    </nav>
+
+    <div class="chatContainer">
+        <div class="box">
+            <div class="upper" id="upperid">
+                <!-- Chat messages will be displayed here -->
+            </div>
+
+            <div class="bottom">
+                <form id="userinputform">
+                    <label for="chat" class="sr-only">Your message</label>
+                    <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
+                        <textarea id="userinput" rows="1"
+                            class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Your message..."></textarea>
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                        <label for="imageUpload" class="inline-flex justify-center p-2 text-gray-500 rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                            </svg>
+                            <span class="sr-only">Attach file</span>
+                        </label>
+                        <button type="submit" id="sendbtn"
+                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                                </path>
+                            </svg>
+                            <span class="sr-only">Send message</span>
+                        </button>
+                    </div>
+                </form>
+                <div id="fileInfo" class="mt-2 text-sm text-gray-500 flex items-center" style="display: none;">
+                    <span id="fileName"></span>
+                    <button id="unattachFile" class="ml-2 text-red-500 hover:text-red-700">Unattach</button>
+                </div>
+                <span class="downwarning">Your chat will be lost upon reloading.</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToBottom() {
+            var div = document.getElementById("upperid");
+            div.scrollTop = div.scrollHeight;
+        }
+        scrollToBottom();
+
+        document.getElementById("userinputform").addEventListener("submit", function (event) {
+            event.preventDefault();
+            formsubmitted();
+        });
+
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileInfo').style.display = 'flex';
+            } else {
+                document.getElementById('fileInfo').style.display = 'none';
+            }
+        });
+
+        document.getElementById('unattachFile').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('imageUpload').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+        });
+
+        const formsubmitted = async () => {
+            let userinput = document.getElementById('userinput').value;
+            let sendbtn = document.getElementById('sendbtn');
+            let userinputarea = document.getElementById('userinput');
+            let upperdiv = document.getElementById('upperid');
+            let fileInput = document.getElementById('imageUpload');
+            let file = fileInput.files[0];
+
+            if (!userinput && !file) {
+                alert('Please enter a message or select a file.');
+                return;
+            }
+
+            upperdiv.innerHTML += `<div class="message">
+                <div class="usermessagediv">
+                    <div class="usermessage">
+                        ${userinput || ''}
+                        ${file ? `<br>[Attached file: ${file.name}]` : ''}
+                    </div>
+                </div>
+            </div>`;
+
+            sendbtn.disabled = true;
+            userinputarea.disabled = true;
+            scrollToBottom();
+            userinputarea.value = "";
+            userinputarea.placeholder = "Wait . . .";
+
+            const formData = new FormData();
+            if (userinput) formData.append('data', userinput);
+            if (file) formData.append('file', file);
+
+            const response = await fetch("/chatbot", {
+                method: 'POST',
+                body: formData
+            });
+            let json = await response.json();
+
+            userinputarea.placeholder = "Your message...";
+
+            if (json.response) {
+                let message = json.message.trim();
+                message = message.toString();
+
+                upperdiv.innerHTML += `
+                <div class="message">
+                    <div class="appmessagediv">
+                        <div class="appmessage" id="temp"></div>
+                    </div>
+                </div>`;
+
+                let temp = document.getElementById('temp');
+                let index = 0;
+                function displayNextLetter() {
+                    scrollToBottom();
+                    if (index < message.length) {
+                        if (message[index] === '\n') {
+                            temp.innerHTML += '<br>';
+                        } else {
+                            temp.innerHTML += message[index];
+                        }
+                        index++;
+                        setTimeout(displayNextLetter, 5);
+                    } else {
+                        temp.removeAttribute('id');
+                        sendbtn.disabled = false;
+                        userinputarea.disabled = false;
+                    }
+                }
+                displayNextLetter();
+                scrollToBottom();
+            } else {
+                let message = json.message;
+                upperdiv.innerHTML += `
+                <div class="message">
+                    <div class="appmessagediv">
+                        <div class="appmessage" style="border: 1px solid red;">
+                            ${message}
+                        </div>
+                    </div>
+                </div>`;
+                sendbtn.disabled = false;
+                userinputarea.disabled = false;
+            }
+
+            scrollToBottom();
+            fileInput.value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
